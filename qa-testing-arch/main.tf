@@ -244,8 +244,9 @@ locals {
     for role_name in var.passrole_role_names :
     "PassRole.${role_name}" => "arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/${role_name}"
   }
-}
+    github_oidc_provider_arn = "arn:aws:iam::${data.aws_caller_identity.current.account_id}:oidc-provider/token.actions.githubusercontent.com"
 
+}
 resource "aws_iam_role" "gha_ecr_role" {
   name = var.gha_role_name
 
@@ -255,7 +256,7 @@ resource "aws_iam_role" "gha_ecr_role" {
       {
         Effect: "Allow",
         Principal: {
-          Federated: var.github_oidc_provider_arn
+          Federated: local.github_oidc_provider_arn
         },
         Action: "sts:AssumeRoleWithWebIdentity",
         Condition: {
