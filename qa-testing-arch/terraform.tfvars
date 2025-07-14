@@ -31,7 +31,6 @@ ecs_cpu_architecture           = "X86_64"
 subnet_ids                     = ["subnet-091d4d7a7980a6a8d", "subnet-014817b95e367b258"] ## update this
 #### GHActions Role ####
 gha_role_name              = "GHActions-ECR"
-github_oidc_provider_arn  = "arn:aws:iam::008270691738:oidc-provider/token.actions.githubusercontent.com" ## update this
 github_oidc_sub           = "repo:midwest-tape/internal-epub-ingest:*"
 passrole_role_names =  [
     "dnet_AudioIngestRole",

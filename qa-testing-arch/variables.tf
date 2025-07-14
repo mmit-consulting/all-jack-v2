@@ -108,11 +108,6 @@ variable "gha_role_name" {
   type        = string
 }
 
-variable "github_oidc_provider_arn" {
-  description = "OIDC provider ARN for GitHub"
-  type        = string
-}
-
 variable "github_oidc_sub" {
   description = "GitHub OIDC sub value (e.g., repo:org/repo:* )"
   type        = string
