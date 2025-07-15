@@ -127,3 +127,25 @@ So even though test-user is still the "owner" of the object:
 - Existing object ownership ==> ✅ Ownership remains unchanged
 - Access decisions ==> ✅ Made exclusively through IAM/bucket policies
 - ACL-based access grants ==> ❌ No longer applied — ignored by S3
+
+---
+
+- ACL Disabled:
+
+  - Object Ownership = Bucket owner enforced
+
+- ACL Enabled:
+  - Object Ownership = Object writer
+  - Object Ownership = Bucket owner preferred
+    - My bucket
+      - Sally imported a file to my bucket and said bucket-owner-full-control ==> I (mahdi) will be the owner of the file
+      - Sally imported a file to my bucket ==> I (mahdi) will not be the owner of the file (sally is the owner)
+
+---
+
+- I have a bucket (test-bucket) that has ACL enabled (Object Ownership = Object writer)
+- Sally uploaded file1.txt in my bucket (test-bucket) ==> Sally is the owner of file1.txt
+- I decided to disable ACL ==> Object Ownership = Bucket owner enforced (ACL is ignored)
+- I want to access file1.txt
+  - If I have the necessary policies to access file1.txt ==> I can access (we don't really care about the owner since ACL is disabled)
+  - If I don't have the ncessary policies ==> I cannot access (since I am not the owner)
