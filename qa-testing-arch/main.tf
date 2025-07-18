@@ -165,7 +165,6 @@ module "ecs" {
       task_exec_iam_role_arn = aws_iam_role.ecs_role.arn
       task_role_arn          = aws_iam_role.ecs_role.arn
 
-      # ✅ Referencing manually created ALB Target Group
       load_balancer = {
         alb = {
           target_group_arn = aws_lb_target_group.ecs_fargate.arn
@@ -179,7 +178,6 @@ module "ecs" {
         cpu_architecture        = var.ecs_cpu_architecture
       }
 
-      # ✅ Optional duplicate for compatibility
       load_balancers = [
         {
           target_group_arn = aws_lb_target_group.ecs_fargate.arn
@@ -216,7 +214,6 @@ module "ecs" {
 
       subnet_ids = var.subnet_ids
 
-      # ✅ Ensure security group allows traffic from ALB SG
       security_group_rules = {
         alb_ingress = {
           type                     = "ingress"
