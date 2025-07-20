@@ -7,13 +7,12 @@ Demonstrate how ACLs and Object Ownership modes impact access and ownership of S
 - internal-account (bucket owner)
 - master-account (external uploader)
 
-## 1. Create a bucket with Object Ownership = ObjectWriter (default)
+## 1. Create a bucket with Object Ownership = ObjectWriter
 
 ```bash
 aws s3api create-bucket \
   --bucket $BUCKET_NAME \
   --region $REGION \
-  --create-bucket-configuration LocationConstraint=$REGION \
   --profile $INTERNAL_PROFILE
 
 # Set ObjectOwnership = ObjectWriter
@@ -112,8 +111,8 @@ We should now have:
 | internal-object.txt  | Internal    | N/A                    | Internal             | ✅ Yes                       |
 | master-no-acl.txt    | Master      | ❌ No ACL              | Master               | ❌ No (unless policy allows) |
 | master-acl.txt       | Master      | ✅ `bucket-owner-full` | Master               | ✅ Yes                       |
-| preferred-no-acl.txt | Master      | ❌ No ACL              | Internal (preferred) | ✅ Yes                       |
-| preferred            | Master      | ✅ `bucket-owner-full` | Internal (preferred) | ✅ Yes                       |
+| preferred-no-acl.txt | Master      | ❌ No ACL              | Internal (preferred) | ❌ No (unless policy allows) |
+| preferred-acl.txt    | Master      | ✅ `bucket-owner-full` | Internal (preferred) | ✅ Yes                       |
 
 Note: After ACLs are disabled, ACLs are ignored — ownership metadata remains, but access is policy-driven only.
 
@@ -134,13 +133,13 @@ This disables all ACLs. From now on:
 
 ## 9. Inspect Again (ACL disabled)
 
-| Object               | Uploaded By | ACL (ignored)                    | Ownership Metadata   | Effective Access (Internal)  |
-| -------------------- | ----------- | -------------------------------- | -------------------- | ---------------------------- |
-| internal-object.txt  | Internal    | N/A                              | Internal             | ✅ Yes                       |
-| master-no-acl.txt    | Master      | ❌ No ACL                        | Master               | ❌ No (unless policy allows) |
-| master-acl.txt       | Master      | ✅ `bucket-owner-full` (ignored) | Master               | ✅ No (unless policy allows) |
-| preferred-no-acl.txt | Master      | ❌ No ACL                        | Internal (preferred) | ✅ Yes (owned by internal)   |
-| preferred            | Master      | ✅ `bucket-owner-full` (ignored) | Internal (preferred) | ✅ Yes (owned by internal)   |
+| Object               | Uploaded By | ACL (ignored)                    | Ownership Metadata | Effective Access (Internal)  |
+| -------------------- | ----------- | -------------------------------- | ------------------ | ---------------------------- |
+| internal-object.txt  | Internal    | N/A                              | Internal           | ✅ Yes                       |
+| master-no-acl.txt    | Master      | ❌ No ACL                        | Internal           | ✅ No (unless policy allows) |
+| master-acl.txt       | Master      | ✅ `bucket-owner-full` (ignored) | Internal           | ✅ No (unless policy allows) |
+| preferred-no-acl.txt | Master      | ❌ No ACL                        | Internal           | ✅ Yes (owned by internal)   |
+| preferred            | Master      | ✅ `bucket-owner-full` (ignored) | Internal           | ✅ Yes (owned by internal)   |
 
 Even though some objects had ACLs, they're now ignored. Internal access is governed exclusively by bucket/IAM policy.
 
