@@ -1,0 +1,5 @@
+# Ignore Terraform hidden directories
+.terraform/
+
+# Optional: be more specific if needed
+**/.terraform/modules/**/
