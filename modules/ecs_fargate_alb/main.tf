@@ -110,7 +110,7 @@ module "ecs" {
 
       load_balancer = {
         alb = {
-          target_group_arn = module.alb.target_groups["${var.name}-ecs"].arn
+          target_group_arn = module.alb[0].target_groups["${var.name}-ecs"].arn
           container_name   = var.ecs_container_name
           container_port   = 80
         }
@@ -147,7 +147,7 @@ module "ecs" {
           from_port                = 80
           to_port                  = 80
           protocol                 = "tcp"
-          source_security_group_id = module.alb.security_group_id
+          source_security_group_id = module.alb[0].security_group_id
         }
         egress_all = {
           type        = "egress"
@@ -215,6 +215,6 @@ resource "aws_iam_policy" "passrole" {
 
 resource "aws_iam_role_policy_attachment" "passrole_attach" {
   for_each   = var.create_gha_role ? aws_iam_policy.passrole : {}
-  role       = aws_iam_role.gha_ecr_role.name
+  role       = aws_iam_role.gha_ecr_role[0].name
   policy_arn = each.value.arn
 }
