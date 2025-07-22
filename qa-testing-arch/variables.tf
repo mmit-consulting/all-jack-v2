@@ -34,27 +34,6 @@ variable "lifecycle_expire_days" {
   description = "Days after which untagged images are expired"
   type        = number
 }
-#### ECS IAM Role ####
-
-variable "ecs_role_name" {
-  description = "Name of the ECS IAM Role"
-  type        = string
-}
-
-variable "ecs_custom_policy_name" {
-  description = "Name of the custom ECS policy"
-  type        = string
-}
-
-variable "ecs_custom_policy_description" {
-  description = "Description for the custom ECS policy"
-  type        = string
-}
-
-variable "ecs_custom_policy_statements" {
-  description = "List of IAM policy statements for the ECS.Full policy"
-  type        = any
-}
 
 #### ECS Task definition ####
 variable "ecs_task_cpu" {
@@ -83,10 +62,6 @@ variable "image_tag" {
   default     = "latest"
 }
 
-variable "ecs_log_retention_days" {
-  description = "Number of rentention days for ECS logs"
-  type = number
-}
 variable "ecs_operating_system_family" {
   description = "ECS runtime OS (e.g., LINUX)"
   type        = string
